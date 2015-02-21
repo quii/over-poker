@@ -15,10 +15,10 @@ object Rank {
   implicit def toNumeric(i: Int) = Numeric(i)
 
   implicit def toInt(rank: Rank) = rank match{
-    case Ace => 13
-    case King => 12
-    case Queen => 11
-    case Jack => 10
+    case Ace => 14
+    case King => 13
+    case Queen => 12
+    case Jack => 11
     case Numeric(n) => n
   }
 }
