@@ -46,12 +46,16 @@ class HandValueTest extends FunSpec{
   }
 
   it("identifies a straight"){
-    val flopThatMakesAStraight = List(Card(4,Hearts), Card(5,Hearts), Card(6,Hearts))
-    val straightHand = Hand(Card(3,Hearts), Card(2,Hearts))
-    HandValue.getValues(straightHand, flopThatMakesAStraight) should contain(Straight(6))
+    val riverStraight = List(Card(2,Hearts), Card(7,Hearts), Card(6,Hearts), Card(8, Spades), Card(King, Clubs))
+    val straightHand = Hand(Card(5,Hearts), Card(4,Hearts))
+    HandValue.getValues(straightHand, riverStraight) should contain(Straight(8))
   }
 
-  it("identifies a straight starting with an ace")(pending)
+  it("identifies a straight starting with an ace"){
+    val flopThatMakesAStraight = List(Card(3,Hearts), Card(4,Hearts), Card(5,Hearts))
+    val straightHand = Hand(Card(Ace,Clubs), Card(2,Hearts))
+    HandValue.getValues(straightHand, flopThatMakesAStraight) should contain(Straight(5))
+  }
 
   it("identifies a straight flush")(pending)
 

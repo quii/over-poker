@@ -60,10 +60,23 @@ object HandValue{
     .map(x=> x.sortBy(r=> -Rank.toInt(r.rank)).head.rank)
 
   private def getStraight(cards: List[Card]): Option[Straight] = {
-    val sorted = sortCards(cards)
-    val minValue = sorted.reverse.head.rank
-    val maxValue = sorted.head.rank
-    if(maxValue-minValue<5) Some(Straight(maxValue)) else None
+
+    val cardsWithAceLowAdded = {
+      val ace = cards.find(c=> c.rank==Ace)
+      ace.map(a=> cards :+ a.copy(rank = AceLow)).getOrElse(cards)
+    }
+
+    val sorted = sortCards(cardsWithAceLowAdded).reverse
+
+    val straightAttempt = sorted.foldLeft(List[Rank]())((straight, card) =>{
+      straight.reverse match{
+        case List(card1, card2, card3, card4, card5) => straight
+        case head :: tail if card.rank - head == 1 => straight :+ card.rank
+        case _ => List(card.rank)
+      }
+    })
+
+    if(straightAttempt.size==5) Some(Straight(straightAttempt.reverse.head)) else None
   }
 
   private def groupCardsByRank(cards: List[Card]) = cards.groupBy(_.rank)
