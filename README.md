@@ -1,8 +1,8 @@
 # over poker
 
-Over engineering poker, in an attempt to learn the rules of poker and help to analyse the situations you come across. The name comes from the fact this will be definitely over-engineered.
+In an attempt to learn the rules of poker and help to analyse the situations you come across, this models texas hold'em just like a million over projects. The name comes from the fact this will be definitely over-engineered.
 
-So far all it does is simulate dealing you some cards, going through the flop, turn and River; telling you what kind of hands you have
+So far all it does is simulate dealing you some cards, going through the flop, turn and river; telling you what kind of hands you have
 
 ## Requires
 
