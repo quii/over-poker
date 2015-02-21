@@ -24,4 +24,6 @@ object Rank {
     case Jack => 11
     case Numeric(n) => n
   }
+
+//  implicit val rankOrdering = new Ordering[Rank].on(r=> r)
 }

@@ -12,23 +12,30 @@ class DeckTest extends FunSpec{
       Deck.fullDeck.size should be(52)
   }
 
+  it("should remove cards from a deck"){
+    val deck = Deck(Vector(Card(Ace, Spades), Card(King, Spades)))
+    val (drawn, newDeck) = deck.drawCardAt(0)
+
+    drawn should be(Card(Ace, Spades))
+    newDeck should be(Deck(Vector(Card(King, Spades))))
+  }
+
   it("should draw a card and return a new deck sans the picked card"){
-    val (card, newDeck) = testDeck.draw(1)
+    val (card, newDeck) = Deck.draw(testDeck,1)
     newDeck.size should be(testDeck.size -1)
-    card should be(card1)
+    card.size should be(1)
+    card.head should be(card1)
     newDeck.cards.contains(card) should be(false)
   }
 
   it("should be able to deal a flop"){
-    val (drawnCard1, drawnCard2, drawnCard3, newDeck) = Deck.flop(testDeck)
+    val (cards, newDeck) = Deck.flop(testDeck)
+    cards.toSet should be(Set(card1, card2, card3))
+  }
 
-    drawnCard1 should be(card1)
-    drawnCard2 should be(card2)
-    drawnCard3 should be(card3)
-
-    newDeck.cards.contains(drawnCard1) should be(false)
-    newDeck.cards.contains(drawnCard2) should be(false)
-    newDeck.cards.contains(drawnCard3) should be(false)
+  it("should sort cards by rank"){
+    val deck = Deck(Vector(Card(Ace, Spades), Card(2, Clubs), Card(10, Hearts)))
+    deck.sortedByRank should be(Vector(Card(Ace, Spades),Card(10, Hearts), Card(2, Clubs)))
   }
 
 }

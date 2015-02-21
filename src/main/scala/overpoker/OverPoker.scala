@@ -1,4 +1,5 @@
-import overpoker.model.{HandValue, Hand, Deck}
+import overpoker.model.DefaultRandomiser._
+import overpoker.model.{Deck, DefaultRandomiser, Hand, HandValue}
 
 object OverPoker extends App{
 	val deck = Deck.fullDeck
@@ -7,12 +8,10 @@ object OverPoker extends App{
 
 	println("hand = " + hand)
 
-	val (card1, card2, card3, deckPostFlop) = Deck.flop(deckAfterOneHand)
+	val (flop, deckPostFlop) = Deck.flop(deckAfterOneHand)
 
 	// The flop
 	println()
-
-	val flop = List(card1, card2, card3)
 
 	println("flop = " + flop)
 
@@ -23,7 +22,7 @@ object OverPoker extends App{
 	// The turn
 	println()
 
-	val (theTurnCard, deckPostTheTurn) = deckPostFlop.draw(1)
+	val (theTurnCard, deckPostTheTurn) = Deck.draw(deckPostFlop, 1)
 
 	val theTurn = flop :+ theTurnCard.head
 
@@ -36,7 +35,7 @@ object OverPoker extends App{
 	// The river
 	println()
 
-	val (theRiverCard, deckPostRiver) = deckPostTheTurn.draw(1)
+	val (theRiverCard, deckPostRiver) = Deck.draw(deckPostTheTurn, 1)
 
 	val theRiver = theTurn :+ theRiverCard.head
 

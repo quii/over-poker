@@ -1,36 +1,30 @@
 package overpoker.model
 
-import scala.util.Random
+import scala.annotation.implicitNotFound
 
-case class Deck(cards: Vector[Card])(implicit randomiser: Randomiser) {
-
-  def draw(amount: Int = 1): (List[Card], Deck) = {
-    val drawn = for(i <- 1 to amount) yield cards(randomiser.random(cards.size))
-    val newDeck = cards.toSet.diff(drawn.toSet)
-    (drawn.toList, Deck(newDeck.toVector))
-  }
-
+case class Deck(cards: Vector[Card]){
   lazy val size = cards.size
+  lazy val sortedByRank: Vector[Card] = cards.sortBy(r=> -Rank.toInt(r.rank))
+  def drawCardAt(index: Int) = (cards(index), Deck(removeAt(index)))
+  private def removeAt(index: Int) = cards.slice(0, index) ++ cards.drop(index+1)
 }
 
 object Deck {
   val allSuits = Vector(Hearts, Clubs, Diamonds, Spades)
 
-  implicit def randomiser = new Randomiser {
-    override def random(size: Int): Int = {
-      val rnd = new Random
-      rnd.nextInt(size)
+  val fullDeck = Deck(allSuits.flatMap(x => Suit(x).cards).toVector)
+
+  @implicitNotFound("Bring a model.Randomiser in to scope or just import model.DefaultRandomiser")
+  def draw(deck: Deck, amount: Int, addTo: Vector[Card] = Vector[Card]())(implicit randomiser:Randomiser): (Vector[Card], Deck) = amount match{
+    case 0 => (addTo, deck)
+    case drawMore => {
+      val (drawn, newDeck) = deck.drawCardAt(randomiser.random(deck.size))
+      draw(newDeck, drawMore-1, addTo :+ drawn)(randomiser)
     }
   }
 
-  val fullDeck = Deck(allSuits.flatMap(x => Suit(x).cards).toVector)
+  def flop(deck: Deck)(implicit r:Randomiser)= draw(deck, 3)(r)
+  def turn(deck: Deck)(implicit r:Randomiser) = draw(deck, 1)(r)
+  def river(deck: Deck)(implicit r:Randomiser) = draw(deck, 1)(r)
 
-  def flop(deck: Deck): (Card, Card, Card, Deck) = {
-    val (cards, newDeck) = deck.draw(3)
-    (cards(0),cards(1), cards(2), newDeck)
-  }
-}
-
-trait Randomiser{
-  def random(size: Int): Int
 }
