@@ -6,6 +6,7 @@ sealed trait HandValue
 case class Pair(rank: Rank) extends HandValue
 case class TwoPair(highest: Rank, lowest: Rank) extends HandValue
 case class ThreeOfAKind(rank: Rank) extends HandValue
+case class Straight(rank: Rank) extends HandValue
 case class Flush(rank: Rank) extends HandValue
 case class FullHouse(threeRank: Rank, pairRank: Rank) extends HandValue
 case class FourOfAKind(rank: Rank) extends HandValue
@@ -36,7 +37,8 @@ object HandValue{
 
     val highCard = List(hand.card1, hand.card2).sortBy(c => -Rank.toInt(c.rank))
 
-    List(flush, fourOfAKind, threeOfAKind, twoOfAKinds, fullHouse).flatten :+ HighCard(highCard(0).rank, highCard(1).rank)
+    List(flush, fourOfAKind, threeOfAKind, twoOfAKinds, fullHouse, getStraight(allCards))
+      .flatten :+ HighCard(highCard(0).rank, highCard(1).rank)
   }
 
   private def getFourOfAKind(cards: List[Card]): Option[Rank] = groupCardsByRank(cards)
@@ -57,5 +59,14 @@ object HandValue{
     .headOption
     .map(x=> x.sortBy(r=> -Rank.toInt(r.rank)).head.rank)
 
+  private def getStraight(cards: List[Card]): Option[Straight] = {
+    val sorted = sortCards(cards)
+    val minValue = sorted.reverse.head.rank
+    val maxValue = sorted.head.rank
+    if(maxValue-minValue<5) Some(Straight(maxValue)) else None
+  }
+
   private def groupCardsByRank(cards: List[Card]) = cards.groupBy(_.rank)
+
+  private def sortCards(cards: List[Card]) = cards.sortBy(r=> -Rank.toInt(r.rank))
 }
