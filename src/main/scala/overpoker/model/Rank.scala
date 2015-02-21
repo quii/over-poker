@@ -10,6 +10,15 @@ case class Numeric(number: Int) extends Rank{
   override def toString() = number.toString
 }
 
-object Rank{
+object Rank {
+
   implicit def toNumeric(i: Int) = Numeric(i)
+
+  implicit def toInt(rank: Rank) = rank match{
+    case Ace => 13
+    case King => 12
+    case Queen => 11
+    case Jack => 10
+    case Numeric(n) => n
+  }
 }

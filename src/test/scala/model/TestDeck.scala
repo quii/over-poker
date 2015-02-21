@@ -14,4 +14,7 @@ object TestDeck {
   }
 
   val testDeck = new Deck(Vector(card1, card2, card3, card4, card5))(drawFromTheTop)
+
+  val worstHand = Hand(Card(2)(Clubs), Card(3)(Hearts))
+  val worstPair = Hand(Card(2)(Clubs), Card(2)(Hearts))
 }
