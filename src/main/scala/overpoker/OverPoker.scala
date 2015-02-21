@@ -23,9 +23,9 @@ object OverPoker extends App{
 	// The turn
 	println()
 
-	val (theTurnCard, deckPostTheTurn) = deckPostFlop.draw
+	val (theTurnCard, deckPostTheTurn) = deckPostFlop.draw(1)
 
-	val theTurn = flop :+ theTurnCard
+	val theTurn = flop :+ theTurnCard.head
 
 	println("theTurn = " + theTurn)
 
@@ -36,9 +36,9 @@ object OverPoker extends App{
 	// The river
 	println()
 
-	val (theRiverCard, deckPostRiver) = deckPostTheTurn.draw
+	val (theRiverCard, deckPostRiver) = deckPostTheTurn.draw(1)
 
-	val theRiver = theTurn :+ theRiverCard
+	val theRiver = theTurn :+ theRiverCard.head
 
 	println("theRiver = " + theRiver)
 

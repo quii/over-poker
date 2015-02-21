@@ -68,4 +68,5 @@ class HandValueTest extends FunSpec{
     val straightHand = Hand(Card(Jack,Hearts), Card(10,Hearts))
     HandValue.getValues(straightHand, flopThatMakesAStraight) should contain(RoyalFlush)
   }
+
 }

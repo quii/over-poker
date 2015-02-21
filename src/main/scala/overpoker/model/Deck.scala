@@ -3,9 +3,11 @@ package overpoker.model
 import scala.util.Random
 
 case class Deck(cards: Vector[Card])(implicit randomiser: Randomiser) {
-  def draw: (Card, Deck) = {
-    val randomCard: Card = cards.toVector(randomiser.random(cards.size))
-    (randomCard, Deck(cards filterNot(_==randomCard)))
+
+  def draw(amount: Int = 1): (List[Card], Deck) = {
+    val drawn = for(i <- 1 to amount) yield cards(randomiser.random(cards.size))
+    val newDeck = cards.toSet.diff(drawn.toSet)
+    (drawn.toList, Deck(newDeck.toVector))
   }
 
   lazy val size = cards.size
@@ -24,10 +26,8 @@ object Deck {
   val fullDeck = Deck(allSuits.flatMap(x => Suit(x).cards).toVector)
 
   def flop(deck: Deck): (Card, Card, Card, Deck) = {
-    val (card1, deck1) = deck.draw
-    val (card2, deck2) = deck1.draw
-    val (card3, deck3) = deck2.draw
-    (card1, card2, card3, deck3)
+    val (cards, newDeck) = deck.draw(3)
+    (cards(0),cards(1), cards(2), newDeck)
   }
 }
 
