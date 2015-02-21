@@ -10,7 +10,7 @@ So far all it does is simulate dealing you some cards, going through the flop, t
 
 ## Sample output
 
-`
+```
 hand = Hand(6 of Diamonds,8 of Hearts)
 
 flop = List(9 of Spades, 4 of Hearts, Jack of Diamonds)
@@ -21,4 +21,4 @@ After the turn you've got = List(HighCard(8,6))
 
 theRiver = List(9 of Spades, 4 of Hearts, Jack of Diamonds, Queen of Spades, 10 of Spades)
 After the river youve got = List(Straight(Queen), HighCard(8,6))
-`
+```
