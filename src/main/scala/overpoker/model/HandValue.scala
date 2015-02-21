@@ -11,6 +11,7 @@ case class Flush(rank: Rank) extends HandValue
 case class FullHouse(threeRank: Rank, pairRank: Rank) extends HandValue
 case class FourOfAKind(rank: Rank) extends HandValue
 case class StraightFlush(rank: Rank) extends HandValue
+case object RoyalFlush extends HandValue
 case class HighCard(highest: Int, second: Int) extends HandValue
 
 object HandValue{
@@ -23,6 +24,7 @@ object HandValue{
     val threeOfAKind = getThreeOfAKind(allCards).map(ThreeOfAKind)
     val straight = getStraight(allCards)
     val straightFlush = if(straight.isDefined && flush.isDefined) Some(StraightFlush(straight.get.rank)) else None
+    val royalFlush = if(straightFlush.isDefined && straightFlush.get.rank==Ace) Some(RoyalFlush) else None
 
     val cardsWithThreeOfAKindsRemoved = threeOfAKind.map(t=> allCards.filterNot(_.rank==t.rank)).getOrElse(allCards)
 
@@ -40,7 +42,7 @@ object HandValue{
 
     val highCard = List(hand.card1, hand.card2).sortBy(c => -Rank.toInt(c.rank))
 
-    List(flush, fourOfAKind, threeOfAKind, twoOfAKinds, fullHouse, straight, straightFlush)
+    List(flush, fourOfAKind, threeOfAKind, twoOfAKinds, fullHouse, straight, straightFlush, royalFlush)
       .flatten :+ HighCard(highCard(0).rank, highCard(1).rank)
   }
 
