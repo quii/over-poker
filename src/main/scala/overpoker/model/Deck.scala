@@ -2,7 +2,8 @@ package overpoker.model
 
 import scala.annotation.implicitNotFound
 
-case class Deck(cards: Vector[Card]){
+case class Deck(someCards: Card*){
+  val cards = someCards.toVector
   lazy val size = cards.size
   lazy val sortedByRank: Vector[Card] = cards.sortBy(r=> -Rank.toInt(r.rank))
   def drawCardAt(index: Int) = (cards(index), Deck(removeAt(index)))
@@ -10,6 +11,8 @@ case class Deck(cards: Vector[Card]){
 }
 
 object Deck {
+  def apply(cards: Vector[Card]):Deck = Deck(cards:_*)
+
   val allSuits = Vector(Hearts, Clubs, Diamonds, Spades)
 
   val fullDeck = Deck(allSuits.flatMap(x => Suit(x).cards).toVector)

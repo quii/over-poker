@@ -1,7 +1,9 @@
 package overpoker.model
 
 
-sealed trait Rank
+sealed trait Rank{
+  def of(suit: SuitName) = Card(this, suit)
+}
 
 case object Ace extends Rank
 case object King extends Rank

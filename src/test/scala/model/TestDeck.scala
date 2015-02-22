@@ -1,20 +1,21 @@
 package model
 
 import overpoker.model._
+import Rank._
 
 object TestDeck {
-  val card1 = Card(Ace,Spades)
-  val card2 = Card(2,Clubs)
-  val card3 = Card(Jack,Diamonds)
-  val card4 = Card(8,Spades)
-  val card5 = Card(5,Hearts)
+  val card1 = Ace of Spades
+  val card2 = 2 of Clubs
+  val card3 = Jack of Diamonds
+  val card4 = 8 of Spades
+  val card5 = 5 of Hearts
 
   implicit val drawFromTheEnd = new Randomiser {
     def random(size: Int) = 0
   }
 
-  val testDeck = new Deck(Vector(card1, card2, card3, card4, card5))
+  val testDeck = Deck(card1, card2, card3, card4, card5)
 
-  val worstHand = Hand(Card(2,Clubs), Card(3,Hearts))
-  val pairOf2 = Hand(Card(2,Clubs), Card(2,Hearts))
+  val worstHand = Hand(2 of Clubs, 3 of Hearts)
+  val pairOf2 = Hand(2 of Clubs, 2 of Hearts)
 }

@@ -3,6 +3,7 @@ package model
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
 import overpoker.model._
+import Rank._
 
 class DeckTest extends FunSpec{
 
@@ -13,11 +14,11 @@ class DeckTest extends FunSpec{
   }
 
   it("should remove cards from a deck"){
-    val deck = Deck(Vector(Card(Ace, Spades), Card(King, Spades)))
+    val deck = Deck(Ace of Spades, King of Spades)
     val (drawn, newDeck) = deck.drawCardAt(0)
 
-    drawn should be(Card(Ace, Spades))
-    newDeck should be(Deck(Vector(Card(King, Spades))))
+    drawn should be(Ace of Spades)
+    newDeck should be(Deck(King of Spades))
   }
 
   it("should draw a card and return a new deck sans the picked card"){
@@ -34,8 +35,8 @@ class DeckTest extends FunSpec{
   }
 
   it("should sort cards by rank"){
-    val deck = Deck(Vector(Card(Ace, Spades), Card(2, Clubs), Card(10, Hearts)))
-    deck.sortedByRank should be(Vector(Card(Ace, Spades),Card(10, Hearts), Card(2, Clubs)))
+    val deck = Deck(Ace of Spades, 2 of Clubs, 10 of Hearts)
+    deck.sortedByRank should be(Vector(Ace of Spades,10 of Hearts, 2 of Clubs))
   }
 
 }
