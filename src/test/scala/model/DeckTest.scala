@@ -9,29 +9,27 @@ class DeckTest extends FunSpec{
 
   import TestDeck._
 
+  val deck = Deck(Ace of Spades, King of Spades, 5 of Hearts, 2 of Spades, Jack of Clubs)
+
   it("should create a deck with a full pack of cards"){
       Deck.fullDeck.size should be(52)
   }
 
-  it("should remove cards from a deck"){
-    val deck = Deck(Ace of Spades, King of Spades)
-    val (drawn, newDeck) = deck.drawCardAt(0)
+  it("should draw cards and return a new deck sans the picked cards"){
+    val cardsToTake = 2
+    val (drawn, newDeck) = Deck.draw(deck,cardsToTake)
 
-    drawn should be(Ace of Spades)
-    newDeck should be(Deck(King of Spades))
-  }
+    newDeck.size should be(deck.size -cardsToTake)
+    newDeck.cards(0) should be(5 of Hearts)
 
-  it("should draw a card and return a new deck sans the picked card"){
-    val (card, newDeck) = Deck.draw(testDeck,1)
-    newDeck.size should be(testDeck.size -1)
-    card.size should be(1)
-    card.head should be(card1)
-    newDeck.cards.contains(card) should be(false)
+    drawn.size should be(cardsToTake)
+    drawn(0) should be(Ace of Spades)
+    drawn(1) should be(King of Spades)
   }
 
   it("should be able to deal a flop"){
-    val (cards, newDeck) = Deck.flop(testDeck)
-    cards.toSet should be(Set(card1, card2, card3))
+    val (cards, newDeck) = Deck.flop(deck)
+    cards.toSet should be(Set(Ace of Spades, King of Spades, 5 of Hearts))
   }
 
   it("should sort cards by rank"){
