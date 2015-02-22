@@ -8,7 +8,7 @@ object OverPoker extends App{
 
 	println("hand = " + hand)
 
-	val (flop, deckPostFlop) = Deck.flop(deckAfterOneHand)
+	val (flop, deckPostFlop) = deckAfterOneHand.flop
 
 	// The flop
 	println()
@@ -22,7 +22,7 @@ object OverPoker extends App{
 	// The turn
 	println()
 
-	val (theTurnCard, deckPostTheTurn) = Deck.draw(deckPostFlop, 1)
+	val (theTurnCard, deckPostTheTurn) = deckPostFlop.turn
 
 	val theTurn = flop :+ theTurnCard.head
 
@@ -35,7 +35,7 @@ object OverPoker extends App{
 	// The river
 	println()
 
-	val (theRiverCard, deckPostRiver) = Deck.draw(deckPostTheTurn, 1)
+	val (theRiverCard, deckPostRiver) = deckPostTheTurn.river
 
 	val theRiver = theTurn :+ theRiverCard.head
 

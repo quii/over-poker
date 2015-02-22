@@ -17,7 +17,7 @@ class DeckTest extends FunSpec{
 
   it("should draw cards and return a new deck sans the picked cards"){
     val cardsToTake = 2
-    val (drawn, newDeck) = Deck.draw(deck,cardsToTake)
+    val (drawn, newDeck) = deck.draw(cardsToTake)
 
     newDeck.size should be(deck.size -cardsToTake)
     newDeck.cards(0) should be(5 of Hearts)
@@ -28,7 +28,7 @@ class DeckTest extends FunSpec{
   }
 
   it("should be able to deal a flop"){
-    val (cards, newDeck) = Deck.flop(deck)
+    val (cards, newDeck) = deck.flop
     cards.toSet should be(Set(Ace of Spades, King of Spades, 5 of Hearts))
   }
 
