@@ -16,13 +16,13 @@ class DeckTest extends FunSpec{
   }
 
   it("should draw cards and return a new deck sans the picked cards"){
-    val cardsToTake = 2
-    val (drawn, newDeck) = deck.draw(cardsToTake)
+    val twoCards = 2
+    val (drawn, newDeck) = deck draw twoCards
 
-    newDeck.size should be(deck.size -cardsToTake)
+    newDeck.size should be(deck.size -twoCards)
     newDeck.cards(0) should be(5 of Hearts)
 
-    drawn.size should be(cardsToTake)
+    drawn.size should be(twoCards)
     drawn(0) should be(Ace of Spades)
     drawn(1) should be(King of Spades)
   }

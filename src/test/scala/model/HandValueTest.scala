@@ -20,6 +20,12 @@ class HandValueTest extends FunSpec{
     HandValue.getValues(hand, flop) should contain(Pair(Queen))
   }
 
+  it("should not find anything interesting"){
+    val hand = Hand(5 of Hearts, 2 of Spades)
+    val flop = Vector(3 of Clubs, 8 of Diamonds, Jack of Clubs)
+    HandValue.getValues(hand, flop) should contain(HighCard(5, 2))
+  }
+  
   it("identifies two pairs, ordered by rank"){
     val flopWithPair = Vector(Queen of Diamonds, Queen of Hearts, 8 of Clubs)
     HandValue.getValues(pairOf2, flopWithPair) should contain(TwoPair(Queen, 2))
