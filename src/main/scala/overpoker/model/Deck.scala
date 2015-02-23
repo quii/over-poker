@@ -2,8 +2,7 @@ package overpoker.model
 
 import overpoker.model.Deck.DrawnCardsAndDeck
 
-case class Deck(someCards: Card*){
-  val cards = someCards.toVector
+case class Deck(cards: Vector[Card]){
 
   lazy val size = cards.size
   lazy val sortedByRank: Vector[Card] = cards.sortBy(r=> -Rank.toInt(r.rank))
@@ -32,7 +31,7 @@ object Deck {
 
   type DrawnCardsAndDeck = (Vector[Card], Deck)
 
-  def apply(cards: Vector[Card]):Deck = Deck(cards:_*)
+  def apply(cards: Card*):Deck = Deck(cards.toVector)
 
   val allSuits = Vector(Hearts, Clubs, Diamonds, Spades)
 

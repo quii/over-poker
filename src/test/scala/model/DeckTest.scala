@@ -22,9 +22,7 @@ class DeckTest extends FunSpec{
     newDeck.size should be(deck.size -twoCards)
     newDeck.cards(0) should be(5 of Hearts)
 
-    drawn.size should be(twoCards)
-    drawn(0) should be(Ace of Spades)
-    drawn(1) should be(King of Spades)
+    drawn should (contain(Ace of Spades) and contain(King of Spades))
   }
 
   it("should be able to deal a flop"){
