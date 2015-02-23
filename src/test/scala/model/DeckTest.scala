@@ -20,14 +20,14 @@ class DeckTest extends FunSpec{
     val (drawn, newDeck) = deck draw twoCards
 
     newDeck.size should be(deck.size -twoCards)
-    newDeck.cards(0) should be(5 of Hearts)
+    newDeck.cards.head should be(5 of Hearts)
 
     drawn should (contain(Ace of Spades) and contain(King of Spades))
   }
 
   it("should be able to deal a flop"){
     val (cards, newDeck) = deck.flop
-    cards.toSet should be(Set(Ace of Spades, King of Spades, 5 of Hearts))
+    cards should (contain(Ace of Spades) and contain(King of Spades) and contain(5 of Hearts))
   }
 
   it("should sort cards by rank"){
