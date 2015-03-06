@@ -17,8 +17,8 @@ case class HighCard(highest: Int, second: Int) extends HandValue
 
 object HandValue{
 
-  def getValues(hand: Hand, table: Vector[Card]): Vector[HandValue] = {
-    val allCards = table :+ hand.card1 :+ hand.card2
+  def getValues(hand: Hand, communityCards: Vector[Card]): Vector[HandValue] = {
+    val allCards = communityCards :+ hand.card1 :+ hand.card2
 
     val flush = getFlush(allCards).map(Flush)
     val fourOfAKind = getFourOfAKind(allCards).map(FourOfAKind)
