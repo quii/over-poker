@@ -1,4 +1,4 @@
-package overpoker.model
+package overpoker.playingcards
 
 
 sealed trait Rank{

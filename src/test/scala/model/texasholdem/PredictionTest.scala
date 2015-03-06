@@ -1,10 +1,12 @@
-package model
+package model.texasholdem
 
 import org.scalatest.FunSpec
-import overpoker.model.Prediction._
-import overpoker.model._
-import overpoker.model.Rank._
 import org.scalatest.Matchers._
+import overpoker.playingcards.Rank._
+import overpoker.playingcards._
+import overpoker.texasholdem._
+import overpoker.texasholdem.Prediction
+import overpoker.texasholdem.Prediction._
 
 class PredictionTest extends FunSpec{
 

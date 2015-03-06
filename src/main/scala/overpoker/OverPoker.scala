@@ -1,5 +1,6 @@
-import overpoker.model.DefaultRandomiser._
-import overpoker.model.{Deck, DefaultRandomiser, Hand, HandValue}
+import overpoker.playingcards.DefaultRandomiser._
+import overpoker.playingcards.{Deck, DefaultRandomiser, Hand}
+import overpoker.texasholdem.HandValue
 
 object OverPoker extends App{
 	val deck = Deck.fullDeck

@@ -1,6 +1,6 @@
-package overpoker.model
+package overpoker.texasholdem
 
-import scala.collection.immutable.Iterable
+import overpoker.playingcards._
 
 sealed trait HandValue
 

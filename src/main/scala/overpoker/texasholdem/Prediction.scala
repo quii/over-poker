@@ -1,4 +1,6 @@
-package overpoker.model
+package overpoker.texasholdem
+
+import overpoker.playingcards.{Card, Deck, Hand}
 
 case class Prediction(value: HandValue, percentageChance: Double)
 

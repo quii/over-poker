@@ -1,13 +1,14 @@
-package model
+package model.playingcards
 
+import model.TestDeck
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
-import overpoker.model._
-import Rank._
+import overpoker.playingcards.Rank._
+import overpoker.playingcards._
 
 class DeckTest extends FunSpec{
 
-  import TestDeck._
+  import model.TestDeck._
 
   val deck = Deck(Ace of Spades, King of Spades, 5 of Hearts, 2 of Spades, Jack of Clubs)
 

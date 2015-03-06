@@ -1,6 +1,6 @@
 package model
 
-import overpoker.model._
+import overpoker.playingcards._
 import Rank._
 
 object TestDeck {

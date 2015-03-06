@@ -1,13 +1,15 @@
-package model
+package model.texasholdem
 
+import model.texasholdem
 import org.scalatest.FunSpec
-import overpoker.model._
 import org.scalatest.Matchers._
-import Rank._
+import overpoker.playingcards.Rank._
+import overpoker.playingcards._
+import overpoker.texasholdem._
 
 class HandValueTest extends FunSpec{
 
-  import TestDeck._
+  import model.TestDeck._
 
   it("finds a pair"){
     val pair = Hand(Queen of Clubs, Queen of Diamonds)

@@ -1,6 +1,6 @@
-package overpoker.model
+package overpoker.playingcards
 
-import overpoker.model.Deck.DrawnCardsAndDeck
+import overpoker.playingcards.Deck.DrawnCardsAndDeck
 
 case class Deck(cards: Vector[Card]){
 
