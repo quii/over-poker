@@ -2,7 +2,7 @@ package overpoker.model
 
 
 sealed trait Rank{
-  def of(suit: SuitName) = Card(this, suit)
+  def of(suit: Suit) = Card(this, suit)
 }
 
 case object Ace extends Rank
@@ -27,5 +27,4 @@ object Rank {
     case Numeric(n) => n
   }
 
-//  implicit val rankOrdering = new Ordering[Rank].on(r=> r)
 }

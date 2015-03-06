@@ -33,8 +33,6 @@ object Deck {
 
   def apply(cards: Card*):Deck = Deck(cards.toVector)
 
-  val allSuits = Vector(Hearts, Clubs, Diamonds, Spades)
-
-  val fullDeck = Deck(allSuits.flatMap(x => Suit(x).cards).toVector)
+  val fullDeck = Deck(Vector(Hearts, Clubs, Diamonds, Spades).flatMap(_.cards))
 
 }
