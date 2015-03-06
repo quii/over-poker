@@ -35,6 +35,22 @@ object Prediction {
     }.getOrElse(Vector.empty)
   }
 
+  def oddsOfFullHouse(hand: Hand, communityCards: Vector[Card]): Vector[Prediction] = {
+    val seenCards = communityCards :+ hand.card1 :+hand.card2
+
+    val hasTwoPairs = HandValue.getValues(hand, communityCards).collect{case TwoPair(x, y) => TwoPair(x, y)}.headOption
+
+    hasTwoPairs.map{ twoPairs =>
+      val outForOneCard = 2
+      val chance = probability(outForOneCard, unseenCards(seenCards.toSet).size)
+      Vector(
+        Prediction(FullHouse(twoPairs.highest, twoPairs.lowest), chance),
+        Prediction(FullHouse(twoPairs.lowest, twoPairs.highest), chance)
+      )
+    }.getOrElse(Vector.empty)
+
+  }
+
   private def chanceOfCardInDeck(card: Card, cards: Set[Card]): Double ={
     val outs = cards.count(c=> c.rank==card.rank)
     probability(outs, cards.size)
