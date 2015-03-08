@@ -1,27 +1,27 @@
 package overpoker.texasholdem
 
-import overpoker.playingcards.{Suit, Card, Deck, Hand}
+import overpoker.playingcards._
+import overpoker.texasholdem.hands
+import overpoker.texasholdem.hands.{FullHouse, Flush, TwoPair, Hand}
 
-import scala.collection.immutable.Iterable
-
-case class Prediction(value: HandValue, percentageChance: Double){
+case class Prediction(value: Hand, percentageChance: Double){
   override def toString = s"$percentageChance% chance of $value"
 }
 
 object Prediction {
 
-  def oddsOfPair(hand: Hand, communityCards: Vector[Card]): Vector[Prediction] = {
+  def oddsOfPair(hand: PlayerHand, communityCards: Vector[Card]): Vector[Prediction] = {
     val seenCards = communityCards :+ hand.card1 :+hand.card2
     val chanceOfMakingPair = chanceOfCardInDeck(hand.card1, unseenCards(seenCards.toSet))
 
     Vector(
-      Prediction(Pair(hand.card1.rank), chanceOfMakingPair),
-      Prediction(Pair(hand.card2.rank), chanceOfMakingPair)
+      Prediction(hands.Pair(hand.card1.rank), chanceOfMakingPair),
+      Prediction(hands.Pair(hand.card2.rank), chanceOfMakingPair)
     )
   }
 
   //http://poker.stackexchange.com/questions/1/what-are-the-odds-i-will-hit-my-flush
-  def oddsOfFlush(hand: Hand, communityCards: Vector[Card]): Vector[Prediction] = {
+  def oddsOfFlush(hand: PlayerHand, communityCards: Vector[Card]): Vector[Prediction] = {
     val seenCards = communityCards :+ hand.card1 :+hand.card2
 
     val potentialFlush = seenCards.groupBy(c=> c.suit).collect({
@@ -35,10 +35,10 @@ object Prediction {
     }.getOrElse(Vector.empty)
   }
 
-  def oddsOfFullHouse(hand: Hand, communityCards: Vector[Card]): Vector[Prediction] = {
+  def oddsOfFullHouse(hand: PlayerHand, communityCards: Vector[Card]): Vector[Prediction] = {
     val seenCards = communityCards :+ hand.card1 :+hand.card2
 
-    val hasTwoPairs = HandValue.getValues(hand, communityCards).collect{case TwoPair(x, y) => TwoPair(x, y)}.headOption
+    val hasTwoPairs = Hand.getValues(hand, communityCards).collect{case TwoPair(x, y) => TwoPair(x, y)}.headOption
 
     hasTwoPairs.map{ twoPairs =>
       val outForOneCard = 2

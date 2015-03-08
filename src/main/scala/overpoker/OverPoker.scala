@@ -1,11 +1,11 @@
 import overpoker.playingcards.DefaultRandomiser._
-import overpoker.playingcards.{Deck, DefaultRandomiser, Hand}
-import overpoker.texasholdem.HandValue
+import overpoker.playingcards.{Deck, PlayerHand}
+import overpoker.texasholdem.hands.Hand
 
 object OverPoker extends App{
 	val deck = Deck.fullDeck
 
-	val (hand, deckAfterOneHand) = Hand.deal(deck)
+	val (hand, deckAfterOneHand) = PlayerHand.deal(deck)
 
 	println("hand = " + hand)
 
@@ -16,7 +16,7 @@ object OverPoker extends App{
 
 	println("flop = " + flop)
 
-	val afterFlop = HandValue.getValues(hand, flop)
+	val afterFlop = Hand.getValues(hand, flop)
 
 	println("After flop you've got = " + afterFlop)
 
@@ -29,7 +29,7 @@ object OverPoker extends App{
 
 	println("theTurn = " + theTurn)
 
-	val afterTheTurn = HandValue.getValues(hand, theTurn)
+	val afterTheTurn = Hand.getValues(hand, theTurn)
 
 	println("After the turn you've got = " + afterTheTurn)
 
@@ -42,7 +42,7 @@ object OverPoker extends App{
 
 	println("theRiver = " + theRiver)
 
-	val result = HandValue.getValues(hand, theRiver)
+	val result = Hand.getValues(hand, theRiver)
 
 	println("After the river youve got = " + result)
 }

@@ -5,13 +5,14 @@ import org.scalatest.Matchers._
 import overpoker.playingcards.Rank._
 import overpoker.playingcards._
 import overpoker.texasholdem._
-import overpoker.texasholdem.Prediction
 import overpoker.texasholdem.Prediction._
+import overpoker.texasholdem.hands.{FullHouse, Flush}
+import overpoker.texasholdem.hands._
 
 class PredictionTest extends FunSpec{
 
-  val uselessHand = Hand(2 of Clubs, 3 of Spades)
-  val flushingHand = Hand(2 of Clubs, 3 of Clubs)
+  val uselessHand = PlayerHand(2 of Clubs, 3 of Spades)
+  val flushingHand = PlayerHand(2 of Clubs, 3 of Clubs)
 
   describe("the river"){
 
@@ -42,7 +43,7 @@ class PredictionTest extends FunSpec{
     }
 
     it("figures out the odds of a full house"){
-      val pocketPair = Hand(2 of Clubs, 2 of Spades)
+      val pocketPair = PlayerHand(2 of Clubs, 2 of Spades)
       val turnWithAPair = Turn(10 of Clubs, 10 of Spades, Ace of Spades, Queen of Hearts)
       oddsOfFullHouse(pocketPair, turnWithAPair) should (contain(Prediction(FullHouse(10, 2), 4.3)) and contain(Prediction(FullHouse(2, 10), 4.3)))
     }
