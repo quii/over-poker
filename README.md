@@ -8,8 +8,9 @@ So far all it does is simulate dealing you some cards, going through the flop, t
 
 - A lovely website where you can put in the cards currently in play and it will tell you
   - What hands you have
-  - What habds you might win
+  - What hands you might win
   - What hands your opponent(s) might have
+  - The probability of the above
 
 ### Other posssibilities
 
