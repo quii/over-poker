@@ -76,4 +76,6 @@ class HandTest extends FunSpec{
     Hand.getValues(straightHand, flopThatMakesAStraight) should contain(RoyalFlush)
   }
 
+  it("returns the hands in descending order (head is best, last is worst)")(pending)
+
 }

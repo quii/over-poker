@@ -114,8 +114,12 @@ object Hand{
 
     val highCard = Deck(Vector(hand.card1, hand.card2)).sortedByRank
 
-    Vector(pair, flush, fourOfAKind, threeOfAKind, twoPair, fullHouse, straight, straightFlush, royalFlush)
+//    Vector(pair, flush, fourOfAKind, threeOfAKind, twoPair, fullHouse, straight, straightFlush, royalFlush)
+//      .flatten :+ HighCard(highCard(0).rank, highCard(1).rank)
+
+    Vector(royalFlush, straightFlush, fourOfAKind, fullHouse, flush, straight, threeOfAKind, twoPair, pair)
       .flatten :+ HighCard(highCard(0).rank, highCard(1).rank)
+
   }
 
 }
