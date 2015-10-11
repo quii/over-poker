@@ -1,8 +1,19 @@
 # over poker
 
-In an attempt to learn the rules of poker and help to analyse the situations you come across, this models texas hold'em just like a million over projects. The name comes from the fact this will be definitely over-engineered.
+In an attempt to learn the rules of poker and help to analyse the situations you come across, this models texas hold'em just like a million other projects. The name comes from the fact this will be definitely over-engineered.
 
 So far all it does is simulate dealing you some cards, going through the flop, turn and river; telling you what kind of hands you have
+
+## Vague ambitions
+
+- A lovely website where you can put in the cards currently in play and it will tell you
+  - What hands you have
+  - What habds you might win
+  - What hands your opponent(s) might have
+
+### Other posssibilities
+
+- Some kind of trainer, to walk you through scenarios and test you... on a mathematical level at least
 
 ## Requires
 
