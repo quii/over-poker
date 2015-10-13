@@ -19,6 +19,12 @@ So far all it does is simulate dealing you some cards, going through the flop, t
 ## Requires
 
 - sbt
+- Java 8
+
+## Web server
+
+    $ sbt run
+    $ follow the prompt...
 
 ## Sample output
 
