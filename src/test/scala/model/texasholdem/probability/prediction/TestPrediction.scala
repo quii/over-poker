@@ -22,11 +22,14 @@ class TestPrediction extends FunSpec {
       Probability.ofPair(pairHand, communityCardsBeforeFlop).river should be(1.0)
     }
 
-    it("returns the probability of a pair on the flop given two cards that don't already make a pair")(pending)
+    it("returns the probability of a pair on the flop given two cards that don't already make a pair") {
+      Probability.ofPair(nonPairHand, communityCardsBeforeFlop).flop should be(0.40408163265)
+    }
 
   }
 
   private val pairHand = PlayerHand(10 of Spades, 10 of Hearts)
+  private val nonPairHand = PlayerHand(4 of Clubs, 7 of Hearts)
   private val communityCardsBeforeFlop = Vector.empty
 
 }
