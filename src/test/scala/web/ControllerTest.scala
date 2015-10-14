@@ -18,7 +18,7 @@ class ControllerTest extends FunSpec {
     val resp: Response = controller.run(request).run
 
     resp.status should be(Ok)
-    resp.body.asString should be(TestHelloService.sayHello(name))
+    resp.body.asString should be(TestHelloService.sayHello(name)+" deliberate breaking to test CI")
 
   }
 }
