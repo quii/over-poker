@@ -1,4 +1,4 @@
-package probability.checkers
+package model.texasholdem.probability.checkers
 
 import overpoker.playingcards.{Card, Deck, PlayerHand}
 import overpoker.texasholdem.hands.{Hand, Pair}

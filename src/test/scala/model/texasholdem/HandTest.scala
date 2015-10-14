@@ -6,6 +6,7 @@ import org.scalatest.Matchers._
 import overpoker.playingcards.Rank._
 import overpoker.playingcards._
 import overpoker.texasholdem._
+import overpoker.texasholdem.gameStage.Flop
 import overpoker.texasholdem.hands._
 
 class HandTest extends FunSpec{
