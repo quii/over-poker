@@ -1,5 +1,7 @@
 # over poker
 
+[![Build Status](https://travis-ci.org/quii/over-poker.svg?branch=master)](https://travis-ci.org/quii/over-poker)
+
 In an attempt to learn the rules of poker and help to analyse the situations you come across, this models texas hold'em just like a million other projects. The name comes from the fact this will be definitely over-engineered.
 
 So far all it does is simulate dealing you some cards, going through the flop, turn and river; telling you what kind of hands you have
