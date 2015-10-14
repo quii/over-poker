@@ -1,11 +1,14 @@
 package overpoker
 
 import org.http4s.server.blaze.BlazeBuilder
-import overpoker.web.Controller
+import overpoker.web.{RealHelloService, Controller}
 
 object WebServer extends App {
+  
+  val helloController = Controller.hello(RealHelloService)
+  
   BlazeBuilder.bindHttp(8080)
-    .mountService(Controller.hello, "/")
+    .mountService(helloController, "/")
     .run
     .awaitShutdown()
 }
