@@ -1,4 +1,4 @@
-package probability
+package probability.checkers
 
 import overpoker.playingcards._
 import overpoker.texasholdem.hands._
