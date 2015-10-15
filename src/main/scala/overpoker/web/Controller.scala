@@ -1,19 +1,34 @@
 package overpoker.web
 
+import org.http4s.EntityDecoder
 import org.http4s.server._
 import org.http4s.dsl._
+import overpoker.playingcards.{Ace, PlayerHand, Card}
+import overpoker.texasholdem.hands.{Flush, Hand}
+import org.http4s.argonaut._
+import _root_.argonaut._, Argonaut._
+import overpoker.web.parsing.PlayingCardCodecs.HandRequest
 
-trait HelloService{
-  def sayHello(name: String): String
+trait HandIdentityService{
+  def identifyHand(playerHand: PlayerHand, communityCards: Vector[Card]): Hand
 }
 
-object RealHelloService extends HelloService{
-  override def sayHello(name: String): String = s"Hello, $name"
+
+
+object TexasHoldemHandIdentityServuce extends HandIdentityService{
+  override def identifyHand(playerHand: PlayerHand, cards: Vector[Card]): Hand = Flush(Ace)
 }
 
 object Controller {
-  def hello(service: HelloService) = HttpService {
-    case GET -> Root / "hello" / name =>
-      Ok(service.sayHello(name))
+
+  import parsing.PlayingCardCodecs._
+  implicit def myJsonA: EntityDecoder[HandRequest] = jsonOf[HandRequest]
+
+  def getHand(service: HandIdentityService) = HttpService {
+    case request@ POST -> Root / "hand" =>
+      request.as[HandRequest].
+        flatMap(cards =>
+          Ok(jSingleObject("hand", jString(service.identifyHand(PlayerHand(cards.player(0), cards.player(1)), cards.community).toString))))
+
   }
 }

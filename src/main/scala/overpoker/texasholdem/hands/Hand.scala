@@ -116,7 +116,6 @@ object Hand{
 
     Vector(royalFlush, straightFlush, fourOfAKind, fullHouse, flush, straight, threeOfAKind, twoPair, pair)
       .flatten :+ HighCard(highCard(0).rank, highCard(1).rank)
-
   }
 
 }
