@@ -14,17 +14,31 @@ class PlayingCardCodecsTest extends FunSpec with DisjunctionMatchers {
   it("should parse cards JSON into a HandRequest"){
 
     val json =
-      """
-        |{
-        | "player":{
-        |   "Ace":"Spades",
-        |   "Ace":"Hearts"
-        | },
-        | "community":{
-        |   "10": "Clubs",
-        |   "King": "Diamonds",
-        |   "3":"Hearts
-        | }
+      """{
+        |  "player": [
+        |    {
+        |      "rank": "Ace",
+        |      "suit": "Spades"
+        |    },
+        |    {
+        |      "rank": "Ace",
+        |      "suit": "Hearts"
+        |    }
+        |  ],
+        |  "community": [
+        |    {
+        |      "rank": "10",
+        |      "suit": "Clubs"
+        |    },
+        |    {
+        |      "rank": "King",
+        |      "suit": "Diamonds"
+        |    },
+        |    {
+        |      "rank": "3",
+        |      "suit": "Hearts"
+        |    }
+        |  ]
         |}
       """.stripMargin
 
@@ -35,7 +49,6 @@ class PlayingCardCodecsTest extends FunSpec with DisjunctionMatchers {
       Vector(Ace of Spades, Ace of Hearts),
       Vector(10 of Clubs, King of Diamonds, 3 of Hearts)
     )
-
     result should be(right[HandRequest])
 
   }
