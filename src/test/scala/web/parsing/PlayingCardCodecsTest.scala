@@ -11,6 +11,9 @@ import overpoker.playingcards.Rank._
 import scalaz.\/
 
 class PlayingCardCodecsTest extends FunSpec with DisjunctionMatchers {
+
+  import overpoker.web.parsing.PlayingCardCodecs._
+
   it("should parse cards JSON into a HandRequest"){
 
     val json =
