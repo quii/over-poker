@@ -1,5 +1,7 @@
 package overpoker.playingcards
 
+import scala.language.postfixOps
+
 sealed trait Suit{
 
   val symbol: String
