@@ -1,6 +1,8 @@
 package overpoker.texasholdem.gameStage
 
+import scala.language.implicitConversions
 import overpoker.playingcards.Card
+
 
 sealed trait GameStage
 

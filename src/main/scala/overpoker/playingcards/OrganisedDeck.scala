@@ -1,4 +1,5 @@
 package overpoker.playingcards
+import scala.language.implicitConversions
 
 case class RankCount(rank: Rank, count: Int)
 
@@ -17,5 +18,5 @@ case class OrganisedDeck(cards: Vector[Card]){
 }
 
 object OrganisedDeck{
-  implicit def fromVector(x: Vector[Card]) = OrganisedDeck(x)
+  implicit def organisedDeckFromVector(x: Vector[Card]): OrganisedDeck = OrganisedDeck(x)
 }

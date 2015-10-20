@@ -1,6 +1,6 @@
 name := "over-poker"
 
-scalaVersion := "2.11.3"
+scalaVersion := "2.11.7"
 
 resolvers += Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns)
 
@@ -13,3 +13,4 @@ libraryDependencies += "org.http4s" %% "http4s-blaze-server" % "0.10.1"
 
 libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.6.4"
 
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xfatal-warnings")
