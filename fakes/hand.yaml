@@ -1,0 +1,10 @@
+
+---
+    - name: get best hand from player & community cards
+      request:
+        uri: /hand
+        method: POST
+        body: '{"player":[{"rank":"Ace","suit":"♠"},{"rank":"King","suit":"♠"}],"community":[{"rank":"Queen","suit":"♠"},{"rank":"Jack","suit":"♠"},{"rank":"10","suit":"♠"}]}'
+      response:
+        code: 200
+        body: '{"hand": "RoyalFlush"}'
