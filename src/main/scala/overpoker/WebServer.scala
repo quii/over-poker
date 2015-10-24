@@ -6,8 +6,10 @@ import overpoker.web.{TexasHoldemHandIdentityServuce, Controller}
 object WebServer extends App {
   
   val helloController = Controller.getHand(TexasHoldemHandIdentityServuce)
-  
-  BlazeBuilder.bindHttp(8080)
+
+  val port = sys.env.get("PORT").map(_.toInt).getOrElse(8080)
+
+  BlazeBuilder.bindHttp(port)
     .mountService(helloController, "/")
     .run
     .awaitShutdown()
