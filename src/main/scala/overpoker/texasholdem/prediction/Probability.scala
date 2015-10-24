@@ -71,6 +71,27 @@ object ProbabilityEngine {
     )
   }
 
+  def probabilitiesOnTurn(playerHand: PlayerHand): Probabilities = {
+    val deck: Vector[Card] = Deck.fullDeck.cards.filter(card => card != playerHand.card1 && card != playerHand.card2)
 
+    val allTurnCombinations = deck.combinations(4).toVector
+    val allCombinationsOfPlayerHandAndTurn: Vector[Vector[Hand]]  = allTurnCombinations.map(turn => Hand.getValues(playerHand, turn))
+    val numberOfCombinations: Double = allCombinationsOfPlayerHandAndTurn.length.toDouble
+
+    def probability(hand: HandType) = allCombinationsOfPlayerHandAndTurn.par.count(combination => HandType(combination.head) == hand).toDouble / numberOfCombinations
+
+    Map(
+      AnyHighCard -> probability(AnyHighCard),
+      AnyPair -> probability(AnyPair),
+      AnyTwoPair -> probability(AnyTwoPair),
+      AnyThreeOfAKind -> probability(AnyThreeOfAKind),
+      AnyStraight -> probability(AnyStraight),
+      AnyFlush -> probability(AnyFlush),
+      AnyFullHouse -> probability(AnyFullHouse),
+      AnyFourOfAKind -> probability(AnyFourOfAKind),
+      AnyStraightFlush -> probability(AnyStraightFlush),
+      AnyRoyalFlush -> probability(AnyRoyalFlush)
+    )
+  }
 
 }

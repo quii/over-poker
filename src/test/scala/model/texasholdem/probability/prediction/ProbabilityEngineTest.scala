@@ -3,6 +3,7 @@ package model.texasholdem.probability.prediction
 import org.scalatest.FunSpec
 import overpoker.playingcards._
 import overpoker.playingcards.Rank._
+import overpoker.texasholdem.prediction.Probability.Probabilities
 import overpoker.texasholdem.prediction._
 import org.scalatest.Matchers._
 
@@ -79,6 +80,24 @@ class ProbabilityEngineTest extends FunSpec {
           val playerHand2 = PlayerHand(5 of Spades, 6 of Spades)
           ProbabilityEngine.probabilitiesOnFlop(playerHand2)(AnyStraightFlush) should be > 0.0
         }
+      }
+    }
+
+    describe("Probabilities on the turn") {
+      it("contains values for all hands"){
+        val playerHand = PlayerHand(Ace of Spades, King of Spades)
+        val probabilities: Probabilities = ProbabilityEngine.probabilitiesOnTurn(playerHand)
+        probabilities(AnyHighCard) should be > 0.0
+        probabilities(AnyPair) should be > 0.0
+        probabilities(AnyTwoPair) should be > 0.0
+        probabilities(AnyThreeOfAKind) should be > 0.0
+        probabilities(AnyStraight) should be > 0.0
+        probabilities(AnyFlush) should be > 0.0
+        probabilities(AnyFullHouse) should be > 0.0
+        probabilities(AnyFourOfAKind) should be > 0.0
+        probabilities(AnyRoyalFlush) should be > 0.0
+
+        ProbabilityEngine.probabilitiesOnTurn(PlayerHand(2 of Hearts, 3 of Hearts))(AnyStraightFlush) should be > 0.0
       }
     }
   }
