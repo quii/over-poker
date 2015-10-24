@@ -16,8 +16,7 @@ class ControllerTest extends FunSpec {
 
   import Helpers._
 
-
-  it("says your name right back at you"){
+  it("calls the service layer to tell you the best hand you have"){
 
     val expectedHand = HighCard(Ace, King)
     val testIdentityService = new TestIdentityService(expectedHand)

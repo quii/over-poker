@@ -6,7 +6,7 @@ import overpoker.playingcards.Rank._
 import overpoker.playingcards._
 import overpoker.texasholdem.prediction.Probability
 
-class TestPrediction extends FunSpec {
+class PredictionTest extends FunSpec {
 
   describe("Before the flop"){
 
