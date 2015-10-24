@@ -81,6 +81,7 @@ class ProbabilityEngineTest extends FunSpec {
           ProbabilityEngine.probabilitiesOnFlop(playerHand2)(AnyStraightFlush) should be > 0.0
         }
       }
+
     }
 
     describe("Probabilities on the turn") {
@@ -100,6 +101,25 @@ class ProbabilityEngineTest extends FunSpec {
         ProbabilityEngine.probabilitiesOnTurn(PlayerHand(2 of Hearts, 3 of Hearts))(AnyStraightFlush) should be > 0.0
       }
     }
+
+    describe("Probabilities on the river") {
+      it("contains values for all hands"){
+        val playerHand = PlayerHand(Ace of Spades, King of Spades)
+        val probabilities: Probabilities = ProbabilityEngine.probabilitiesOnRiver(playerHand)
+        probabilities(AnyHighCard) should be > 0.0
+        probabilities(AnyPair) should be > 0.0
+        probabilities(AnyTwoPair) should be > 0.0
+        probabilities(AnyThreeOfAKind) should be > 0.0
+        probabilities(AnyStraight) should be > 0.0
+        probabilities(AnyFlush) should be > 0.0
+        probabilities(AnyFullHouse) should be > 0.0
+        probabilities(AnyFourOfAKind) should be > 0.0
+        probabilities(AnyRoyalFlush) should be > 0.0
+
+        ProbabilityEngine.probabilitiesOnRiver(PlayerHand(2 of Hearts, 3 of Hearts))(AnyStraightFlush) should be > 0.0
+      }
+    }
+
   }
 
 }

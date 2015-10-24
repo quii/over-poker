@@ -47,38 +47,22 @@ object Probability {
 }
 
 object ProbabilityEngine {
+  def probabilitiesOnRiver = probabilities(5) _
 
-  def probabilitiesOnFlop(playerHand: PlayerHand): Probabilities = {
+  def probabilitiesOnFlop = probabilities(3) _
 
+  def probabilitiesOnTurn = probabilities(4) _
+
+
+  private def probabilities(choose: Int)(playerHand: PlayerHand): Probabilities = {
     val deck: Vector[Card] = Deck.fullDeck.cards.filter(card => card != playerHand.card1 && card != playerHand.card2)
 
-    val allFlopCombinations = deck.combinations(3).toVector
-    val allCombinationsOfPlayerHandAndFlop: Vector[Vector[Hand]]  = allFlopCombinations.map(flop => Hand.getValues(playerHand, flop))
-    val numberOfCombinations: Double = allCombinationsOfPlayerHandAndFlop.length.toDouble
+    val allCombinations = deck.combinations(choose).toVector
+    val allCombinationsOfPlayerHandAndChosenCards: Vector[Vector[Hand]] = allCombinations.par.map(chosenCards => Hand.getValues(playerHand, chosenCards)).toVector
 
-    def probability(hand: HandType) = allCombinationsOfPlayerHandAndFlop.par.count(combination => HandType(combination.head) == hand).toDouble / numberOfCombinations
+    val numberOfCombinations: Double = allCombinationsOfPlayerHandAndChosenCards.length.toDouble
 
-    Map(
-      AnyPair -> probability(AnyPair),
-      AnyTwoPair -> probability(AnyTwoPair),
-      AnyThreeOfAKind -> probability(AnyThreeOfAKind),
-      AnyStraight -> probability(AnyStraight),
-      AnyFlush -> probability(AnyFlush),
-      AnyFullHouse -> probability(AnyFullHouse),
-      AnyFourOfAKind -> probability(AnyFourOfAKind),
-      AnyStraightFlush -> probability(AnyStraightFlush),
-      AnyRoyalFlush -> probability(AnyRoyalFlush)
-    )
-  }
-
-  def probabilitiesOnTurn(playerHand: PlayerHand): Probabilities = {
-    val deck: Vector[Card] = Deck.fullDeck.cards.filter(card => card != playerHand.card1 && card != playerHand.card2)
-
-    val allTurnCombinations = deck.combinations(4).toVector
-    val allCombinationsOfPlayerHandAndTurn: Vector[Vector[Hand]]  = allTurnCombinations.map(turn => Hand.getValues(playerHand, turn))
-    val numberOfCombinations: Double = allCombinationsOfPlayerHandAndTurn.length.toDouble
-
-    def probability(hand: HandType) = allCombinationsOfPlayerHandAndTurn.par.count(combination => HandType(combination.head) == hand).toDouble / numberOfCombinations
+    def probability(hand: HandType) = allCombinationsOfPlayerHandAndChosenCards.par.count(combination => HandType(combination.head) == hand).toDouble / numberOfCombinations
 
     Map(
       AnyHighCard -> probability(AnyHighCard),
