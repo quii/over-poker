@@ -18,4 +18,5 @@ libraryDependencies += "org.typelevel" %% "scalaz-scalatest" % "0.3.0" % "test"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xfatal-warnings")
 
+
 enablePlugins(JavaAppPackaging)
