@@ -18,7 +18,7 @@ object ProbabilityOfMakingHandOnFlopVsTurn {
       possibleFlopVariation <- allPossibleFlopVariations
     } yield Hand.getValues(playerHand, possibleFlopVariation)
 
-    val numPairHandsFlop: Int = allFlopHands.count(_.head.isInstanceOf[Pair])
+    val numPairHandsFlop: Int = allFlopHands.par.count(_.head.isInstanceOf[Pair])
     println("On the flop:")
     println("Num Pair Hands: " + numPairHandsFlop)
     println("Num Possible flop hands: " + allPossibleFlopVariations.length)
@@ -31,7 +31,7 @@ object ProbabilityOfMakingHandOnFlopVsTurn {
       possibleTurnVariation <- allPossibleTurnVariations
     } yield Hand.getValues(playerHand, possibleTurnVariation)
 
-    val numPairHandsTurn = allTurnHands.count(_.head.isInstanceOf[Pair])
+    val numPairHandsTurn = allTurnHands.par.count(_.head.isInstanceOf[Pair])
     println()
     println("On the Turn:")
     println("Num Pair Hands: " + numPairHandsTurn)
