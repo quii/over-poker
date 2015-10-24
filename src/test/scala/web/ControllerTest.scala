@@ -16,15 +16,19 @@ class ControllerTest extends FunSpec {
 
   import Helpers._
 
-  val controller = Controller.getHand(TestHelloService)
 
   it("says your name right back at you"){
+
+    val expectedHand = HighCard(Ace, King)
+    val testIdentityService = new TestIdentityService(expectedHand)
+    val controller = Controller.getHand(testIdentityService)
+
     val handRequest = HandRequest(Vector(Ace of Spades, King of Hearts), Vector(10 of Diamonds, 9 of Diamonds, 8 of Diamonds))
 
     val request = Request(
       uri=Uri(path = s"/hand"),
       method = Method.POST
-    ).withBody("foo")
+    ).withBody(handRequest.asJson)
 
     val resp: Response = controller.run(request.run).run
 
@@ -34,9 +38,7 @@ class ControllerTest extends FunSpec {
   }
 }
 
-object TestHelloService extends HandIdentityService{
-  //todo: Bit weak, just return high card of whatever the player has, should make instance of this stub which return what we want it to
-  override def identifyHand(playerHand: PlayerHand, communityCards: Vector[Card]): Hand =
-    HighCard(playerHand.card1.rank, playerHand.card2.rank)
+class TestIdentityService(expectedHand: Hand) extends HandIdentityService{
+  override def identifyHand(playerHand: PlayerHand, communityCards: Vector[Card]): Hand = expectedHand
 }
 

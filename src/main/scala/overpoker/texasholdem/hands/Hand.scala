@@ -14,7 +14,7 @@ case class FullHouse(threeRank: Rank, pairRank: Rank) extends Hand
 case class FourOfAKind(rank: Rank) extends Hand
 case class StraightFlush(rank: Rank) extends Hand
 case object RoyalFlush extends Hand
-case class HighCard(highest: Int, second: Int) extends Hand
+case class HighCard(highest: Rank, second: Rank) extends Hand
 
 object Pair{
   def apply(cards: Vector[Card]): Option[Pair] =

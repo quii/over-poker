@@ -13,10 +13,8 @@ trait HandIdentityService{
   def identifyHand(playerHand: PlayerHand, communityCards: Vector[Card]): Hand
 }
 
-
-
 object TexasHoldemHandIdentityServuce extends HandIdentityService{
-  override def identifyHand(playerHand: PlayerHand, cards: Vector[Card]): Hand = Flush(Ace)
+  override def identifyHand(playerHand: PlayerHand, cards: Vector[Card]): Hand = Hand.getValues(playerHand, cards).head
 }
 
 object Controller {
