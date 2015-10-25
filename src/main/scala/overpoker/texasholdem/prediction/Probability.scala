@@ -1,6 +1,6 @@
 package overpoker.texasholdem.prediction
 
-import overpoker.playingcards.{Card, Deck, PlayerHand}
+import overpoker.playingcards._
 import overpoker.texasholdem.hands._
 import overpoker.texasholdem.prediction.Probability.Probabilities
 
@@ -78,4 +78,21 @@ object ProbabilityEngine {
     )
   }
 
+  def time[R](block: => R): R = {
+    val t0 = System.nanoTime()
+    val result = block    // call-by-name
+    val t1 = System.nanoTime()
+    println("Elapsed time: " + (t1 - t0) / 1000000000.0 + "s")
+    result
+  }
+
+  def main (args: Array[String]){
+    println(time { probabilities(3)(PlayerHand(Ace of Spades, King of Spades)) })
+    println(time { probabilities(4)(PlayerHand(Ace of Spades, King of Spades)) })
+    //time { println(probabilities(5)(PlayerHand(Ace of Spades, King of Spades))) }
+  }
 }
+
+//Map(AnyStraight -> 0.0032142857142857142, AnyHighCard -> 0.5271428571428571, AnyThreeOfAKind -> 0.015714285714285715, AnyFourOfAKind -> 1.0204081632653062E-4, AnyPair -> 0.40408163265306124, AnyStraightFlush -> 0.0, AnyRoyalFlush -> 5.102040816326531E-5, AnyFullHouse -> 9.183673469387755E-4, AnyFlush -> 0.00836734693877551, AnyTwoPair -> 0.04040816326530612)
+//Map(AnyStraight -> 0.010720798957881025, AnyHighCard -> 0.3387016934433348, AnyThreeOfAKind -> 0.03060790273556231, AnyFourOfAKind -> 4.559270516717325E-4, AnyPair -> 0.47206686930091185, AnyStraightFlush -> 1.1289622231871472E-4, AnyRoyalFlush -> 4.211897524967434E-4, AnyFullHouse -> 0.006304819800260529, AnyFlush -> 0.028840642640034737, AnyTwoPair -> 0.11176726009552758)
+//Map(AnyStraight -> 0.02410938473446733, AnyHighCard -> 0.18224338764182824, AnyThreeOfAKind -> 0.04388179878797032, AnyFourOfAKind -> 0.0012592270950933565, AnyPair -> 0.45506192301157283, AnyStraightFlush -> 0.001087900470086277, AnyRoyalFlush -> 0.0014598161188619759, AnyFullHouse -> 0.02192980800090619, AnyFlush -> 0.06327285770922615, AnyTwoPair -> 0.20569389642998734)
