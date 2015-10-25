@@ -23,6 +23,7 @@ object Controller {
   implicit def myJsonA: EntityDecoder[HandRequest] = jsonOf[HandRequest]
 
   def getHand(service: HandIdentityService) = HttpService {
+    case GET -> Root => Ok("Almost a straight is not a straight")
     case request@ POST -> Root / "hand" =>
       request.as[HandRequest].
         flatMap(cards =>
