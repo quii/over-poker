@@ -76,7 +76,4 @@ class HandTest extends FunSpec{
     val straightHand = PlayerHand(Jack of Hearts, 10 of Hearts)
     Hand.getValues(straightHand, flopThatMakesAStraight) should contain(RoyalFlush)
   }
-
-  it("returns the hands in descending order (head is best, last is worst)")(pending)
-
 }
