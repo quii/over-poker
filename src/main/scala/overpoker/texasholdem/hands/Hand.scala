@@ -5,6 +5,9 @@ import OrganisedDeck._
 import overpoker.texasholdem.gameStage.Flop
 
 sealed trait Hand { val value: Int}
+case object Nothing extends Hand {
+  val value = 11
+}
 case class HighCard(rank: Rank) extends Hand {
   val value = 10
 }
@@ -145,7 +148,8 @@ object Hand{
   } 
   
   def playersBestHand(playerHand: PlayerHand, communityCards: Vector[Card]): Hand = {
-    getValues(playerHand, communityCards).diff(getValues(communityCards)).sortBy(_.value).head
+    val playersHands: Vector[Hand] = getValues(playerHand, communityCards).diff(getValues(communityCards)).sortBy(_.value)
+    if(playersHands.isEmpty) Nothing else playersHands.head
   }
 
 }

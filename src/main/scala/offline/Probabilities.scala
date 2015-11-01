@@ -1,9 +1,15 @@
 package offline
 
-import overpoker.playingcards.{Deck, PlayerHand}
-import overpoker.texasholdem.hands.Hand
+import overpoker.playingcards.{Spades, Clubs, Deck, PlayerHand}
+import overpoker.texasholdem.hands._
+import overpoker.playingcards.Rank._
 
-case class Probabilities(playerHand: PlayerHand, flop: HandProbabilities)
+case class Probabilities(playerHand: PlayerHand, flop: HandProbabilities) {
+  override def toString = {
+    s"""PlayerHand: ${playerHand.toString}
+       |${flop.toString}""".stripMargin
+  }
+}
 
 object Probabilities {
 
@@ -18,9 +24,33 @@ object Probabilities {
 
   def flopProbabilities(playerHand: PlayerHand): HandProbabilities = {
     val allFlops = Deck.fullDeck.cards.filter(card => card != playerHand.card1 && card != playerHand.card2).combinations(3).toVector
-    val allHands: Vector[Hand] = allFlops.map(flop => Hand.playersBestHand(playerHand, flop))
-//    allHands.groupBy()
-    HandProbabilities()
+    val allPlayerOnlyHands: Vector[Hand] = allFlops.map(flop => Hand.playersBestHand(playerHand, flop))
+    val allProbabilities: Map[HandType with Product with Serializable, Double] = allPlayerOnlyHands.groupBy(HandType(_)).mapValues(_.size.toDouble / allFlops.length.toDouble)
+    HandProbabilities(
+      royalFlush = allProbabilities.getOrElse(AnyRoyalFlush, 0.0),
+      straightFlush = allProbabilities.getOrElse(AnyStraightFlush, 0.0),
+      fourOfAKind = allProbabilities.getOrElse(AnyFourOfAKind, 0.0),
+      fullHouse = allProbabilities.getOrElse(AnyFullHouse, 0.0),
+      flush = allProbabilities.getOrElse(AnyFlush, 0.0),
+      straight = allProbabilities.getOrElse(AnyStraight, 0.0),
+      threeOfAKind = allProbabilities.getOrElse(AnyThreeOfAKind, 0.0),
+      twoPair = allProbabilities.getOrElse(AnyTwoPair, 0.0),
+      pair = allProbabilities.getOrElse(AnyPair, 0.0),
+      highCard = allProbabilities.getOrElse(AnyHighCard, 0.0),
+      nothing = allProbabilities.getOrElse(NothingHand, 0.0))
+  }
+
+  def time[R](block: => R): R = {
+    val start = System.nanoTime()
+    val returnVal = block
+    val timeTaken = System.nanoTime() - start
+    println("Time taken: " + timeTaken / 1000000000.0 + "s")
+    returnVal
+  }
+
+  def main(args: Array[String]) {
+//    time{ probabilities(PlayerHand(3 of Clubs, 3 of Spades)) }
+    time{ preFlop }
   }
 }
 
@@ -36,4 +66,58 @@ case class HandProbabilities(
                               twoPair: Double = -100.0,
                               pair: Double = -100.0,
                               highCard: Double = -100.0,
-                              nothing: Double = -100.0)
+                              nothing: Double = -100.0) {
+  override def toString = {
+    s"""Royal Flush:  $royalFlush
+       |Straight Flush: $straightFlush
+       |Four of a Kind: $fourOfAKind
+       |Flush: $flush
+       |Straight: $straight
+       |Three of a Kind: $threeOfAKind
+       |Two Pair: $twoPair
+       |Pair: $pair
+       |High Card: $highCard
+       |Nothing: $nothing
+     """.stripMargin
+  }
+}
+
+sealed trait HandType
+
+case object AnyRoyalFlush extends HandType
+
+case object AnyStraightFlush extends HandType
+
+case object AnyFourOfAKind extends HandType
+
+case object AnyFullHouse extends HandType
+
+case object AnyFlush extends HandType
+
+case object AnyStraight extends HandType
+
+case object AnyThreeOfAKind extends HandType
+
+case object AnyTwoPair extends HandType
+
+case object AnyPair extends HandType
+
+case object AnyHighCard extends HandType
+
+case object NothingHand extends HandType
+
+object HandType {
+  def apply(hand: Hand) = hand match {
+    case Pair(_) => AnyPair
+    case TwoPair(_, _) => AnyTwoPair
+    case ThreeOfAKind(_) => AnyThreeOfAKind
+    case Straight(_) => AnyStraight
+    case Flush(_) => AnyFlush
+    case FullHouse(_, _) => AnyFullHouse
+    case FourOfAKind(_) => AnyFourOfAKind
+    case StraightFlush(_) => AnyStraightFlush
+    case RoyalFlush => AnyRoyalFlush
+    case HighCard(_) => AnyHighCard
+    case _ => NothingHand
+  }
+}
