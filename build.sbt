@@ -6,6 +6,8 @@ resolvers += Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy
 
 libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
 
+libraryDependencies += "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test"
+
 libraryDependencies += "org.http4s" %% "http4s-dsl"          % "0.10.1"
 
 libraryDependencies += "org.http4s" %% "http4s-blaze-server" % "0.10.1"

@@ -18,7 +18,7 @@ class ControllerTest extends FunSpec {
 
   it("calls the service layer to tell you the best hand you have"){
 
-    val expectedHand = HighCard(Ace, King)
+    val expectedHand = HighCard(Ace)
     val testIdentityService = new TestIdentityService(expectedHand)
     val controller = Controller.getHand(testIdentityService)
 
@@ -32,7 +32,7 @@ class ControllerTest extends FunSpec {
     val resp: Response = controller.run(request.run).run
 
     resp.status should be(Ok)
-    resp.body.asString should be({"""{"hand":"HighCard(Ace,King)"}"""})
+    resp.body.asString should be({"""{"hand":"HighCard(Ace)"}"""})
 
   }
 }

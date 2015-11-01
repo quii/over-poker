@@ -2,19 +2,40 @@ package overpoker.texasholdem.hands
 
 import overpoker.playingcards._
 import OrganisedDeck._
+import overpoker.texasholdem.gameStage.Flop
 
-sealed trait Hand
+sealed trait Hand { val value: Int}
+case class HighCard(rank: Rank) extends Hand {
+  val value = 10
+}
+case class Pair(rank: Rank) extends Hand {
+  val value = 9
+}
+case class TwoPair(highest: Rank, lowest: Rank) extends Hand {
+  val value = 8
+}
+case class ThreeOfAKind(rank: Rank) extends Hand {
+  val value = 7
+}
+case class Straight(rank: Rank) extends Hand {
+  val value = 6
+}
+case class Flush(rank: Rank) extends Hand {
+  val value = 5
+}
+case class FullHouse(threeRank: Rank, pairRank: Rank) extends Hand {
+  val value = 4
+}
+case class FourOfAKind(rank: Rank) extends Hand {
+  val value = 3
+}
+case class StraightFlush(rank: Rank) extends Hand {
+  val value = 2
+}
+case object RoyalFlush extends Hand {
+  val value = 1
+}
 
-case class Pair(rank: Rank) extends Hand
-case class TwoPair(highest: Rank, lowest: Rank) extends Hand
-case class ThreeOfAKind(rank: Rank) extends Hand
-case class Straight(rank: Rank) extends Hand
-case class Flush(rank: Rank) extends Hand
-case class FullHouse(threeRank: Rank, pairRank: Rank) extends Hand
-case class FourOfAKind(rank: Rank) extends Hand
-case class StraightFlush(rank: Rank) extends Hand
-case object RoyalFlush extends Hand
-case class HighCard(highest: Rank, second: Rank) extends Hand
 
 object Pair{
   def apply(cards: Vector[Card]): Option[Pair] =
@@ -101,21 +122,30 @@ object Hand{
   def getValues(hand: PlayerHand, communityCards: Vector[Card]): Vector[Hand] = {
     val allCards = communityCards :+ hand.card1 :+ hand.card2
 
-    val flush = Flush(allCards)
-    val fourOfAKind = FourOfAKind(allCards)
-    val threeOfAKind = ThreeOfAKind(allCards)
-    val straight = Straight(allCards)
-    val pair = Pair(allCards)
-    val twoPair = TwoPair(allCards)
-    val fullHouse = FullHouse(allCards)
+    getValues(allCards)
+  }
+
+  def getValues(cards: Vector[Card]) = {
+
+    val flush = Flush(cards)
+    val fourOfAKind = FourOfAKind(cards)
+    val threeOfAKind = ThreeOfAKind(cards)
+    val straight = Straight(cards)
+    val pair = Pair(cards)
+    val twoPair = TwoPair(cards)
+    val fullHouse = FullHouse(cards)
 
     val straightFlush = if(straight.isDefined && flush.isDefined) Some(StraightFlush(straight.get.rank)) else None
     val royalFlush = if(straightFlush.isDefined && straightFlush.get.rank==Ace) Some(RoyalFlush) else None
 
-    val highCard = Deck(Vector(hand.card1, hand.card2)).sortedByRank
+    val highCard = cards.sortBy(_.rank.toInt).reverse.head
 
-    Vector(royalFlush, straightFlush, fourOfAKind, fullHouse, flush, straight, threeOfAKind, twoPair, pair)
-      .flatten :+ HighCard(highCard(0).rank, highCard(1).rank)
+    (Vector(royalFlush, straightFlush, fourOfAKind, fullHouse, flush, straight, threeOfAKind, twoPair, pair)
+      .flatten :+ HighCard(highCard.rank)).sortBy(_.value)
+  } 
+  
+  def playersBestHand(playerHand: PlayerHand, communityCards: Vector[Card]): Hand = {
+    getValues(playerHand, communityCards).diff(getValues(communityCards)).sortBy(_.value).head
   }
 
 }
