@@ -1,8 +1,7 @@
 package offline
 
-import overpoker.playingcards.{Spades, Clubs, Deck, PlayerHand}
+import overpoker.playingcards.{Deck, PlayerHand}
 import overpoker.texasholdem.hands._
-import overpoker.playingcards.Rank._
 
 case class Probabilities(playerHand: PlayerHand, flop: HandProbabilities) {
   override def toString = {
@@ -15,7 +14,7 @@ object Probabilities {
 
   def preFlop: Vector[Probabilities] = {
     val playerHands = Deck.fullDeck.cards.combinations(2).map(cards => PlayerHand(cards.head, cards(1))).toVector
-    playerHands.map(probabilities)
+    playerHands.par.map(probabilities).toVector
   }
 
   def probabilities(playerHand: PlayerHand): Probabilities = {
