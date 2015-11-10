@@ -1,27 +1,27 @@
-package offline
+package offline.parked
 
+import overpoker.playingcards.Rank._
 import overpoker.playingcards._
 import overpoker.texasholdem.hands._
-import overpoker.playingcards.Rank._
 
 import scala.language.implicitConversions
 
-case class Probabilities(playerHand: PlayerHand, flop: HandProbabilities) {
+case class ProbabilitiesParked(playerHand: PlayerHand, flop: HandProbabilities) {
   override def toString = {
     s"""PlayerHand: ${playerHand.toString}
        |${flop.toString}""".stripMargin
   }
 }
 
-object Probabilities {
+object ProbabilitiesParked {
 
-  def preFlop: Vector[Probabilities] = {
+  def preFlop: Vector[ProbabilitiesParked] = {
     val playerHands = Deck.fullDeck.cards.combinations(2).map(cards => PlayerHand(cards.head, cards(1))).toVector
     playerHands.par.map(probabilities).toVector
   }
 
-  def probabilities(playerHand: PlayerHand): Probabilities = {
-    Probabilities(playerHand, flop = flopProbabilities(playerHand))
+  def probabilities(playerHand: PlayerHand): ProbabilitiesParked = {
+    ProbabilitiesParked(playerHand, flop = flopProbabilities(playerHand))
   }
 
   def flopProbabilities(playerHand: PlayerHand): HandProbabilities = {
@@ -93,7 +93,7 @@ object ProbabilitiesTwo {
 
   def main(args: Array[String]) {
     val playerHand: PlayerHand = PlayerHand(3 of Clubs, 3 of Spades)
-    println(probability(3)(playerHand, Deck.fullDeck) == Probabilities.flopProbabilities(playerHand))
+    println(probability(3)(playerHand, Deck.fullDeck) == ProbabilitiesParked.flopProbabilities(playerHand))
   }
 }
 
