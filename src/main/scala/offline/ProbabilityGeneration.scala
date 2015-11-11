@@ -1,6 +1,9 @@
 package offline
 
-import java.io.File
+import java.io.{FileWriter, File}
+import prediction.Probability
+
+import scala.language.reflectiveCalls
 import scala.util.Try
 
 object ProbabilityGeneration {
@@ -12,11 +15,24 @@ object ProbabilityGeneration {
     val dataDir = new File(dataDirPath)
     dataDir.mkdirs()
 
-    // Get the probabilities for each possible player hand before the flop
-      // on the flop
-      // on the turn
-      // on the river
+    val flopProbabilities = Probability.preFlop_flop(numberOfCardsInDeck)
 
-    // write each situation to a separate file in the data dir
+    val turnProbabilities = Probability.preFlop_turn(numberOfCardsInDeck)
+
+    val riverProbabilities = Probability.preFlop_river(numberOfCardsInDeck)
+
+    writeToFile(dataDirPath + "/pre-flop-flop.data", csv(flopProbabilities))
+    writeToFile(dataDirPath + "/pre-flop-turn.data", csv(turnProbabilities))
+    writeToFile(dataDirPath + "/pre-flop-river.data", csv(riverProbabilities))
   }
+
+  private def using[A <: {def close(): Unit}, B](param: A)(f: A => B): B =
+    try { f(param) } finally { param.close() }
+
+  private def writeToFile(fileName:String, data:String) = using (new FileWriter(fileName)) { fileWriter => fileWriter.write(data) }
+
+  private def csv(input: Any): String = {
+    "something from main"
+  }
+
 }

@@ -9,7 +9,7 @@ import scala.io.Source
 class OfflineProbabilityGenerationTest extends FunSpec {
 
   private val pathToDataDir = "../data"
-  private val dataFiles = new File(pathToDataDir).listFiles
+  private def dataFiles = new File(pathToDataDir).listFiles
 
   TestSetup.init(pathToDataDir)
 
@@ -56,10 +56,6 @@ object TestSetup {
       dataDir.listFiles.foreach(f => f.delete)
       dataDir.delete
     }
-//
-//    import scala.language.postfixOps
-//    import sys.process._
-//    "./tmpscript.sh" !
 
     val pathToData = "../data"
     val numberOfCardsInDeck = "10"
