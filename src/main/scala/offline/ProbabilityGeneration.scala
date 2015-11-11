@@ -15,15 +15,15 @@ object ProbabilityGeneration {
     val dataDir = new File(dataDirPath)
     dataDir.mkdirs()
 
-    val flopProbabilities = Probability.preFlop_flop(numberOfCardsInDeck)
-
-    val turnProbabilities = Probability.preFlop_turn(numberOfCardsInDeck)
-
-    val riverProbabilities = Probability.preFlop_river(numberOfCardsInDeck)
-
-    writeToFile(dataDirPath + "/pre-flop-flop.data", csv(flopProbabilities))
-    writeToFile(dataDirPath + "/pre-flop-turn.data", csv(turnProbabilities))
-    writeToFile(dataDirPath + "/pre-flop-river.data", csv(riverProbabilities))
+//    val flopProbabilities = Probability.preFlop_flop(numberOfCardsInDeck)
+//
+//    val turnProbabilities = Probability.preFlop_turn(numberOfCardsInDeck)
+//
+//    val riverProbabilities = Probability.preFlop_river(numberOfCardsInDeck)
+//
+//    writeToFile(dataDirPath + "/pre-flop-flop.data", csv(flopProbabilities))
+//    writeToFile(dataDirPath + "/pre-flop-turn.data", csv(turnProbabilities))
+//    writeToFile(dataDirPath + "/pre-flop-river.data", csv(riverProbabilities))
   }
 
   private def using[A <: {def close(): Unit}, B](param: A)(f: A => B): B =
