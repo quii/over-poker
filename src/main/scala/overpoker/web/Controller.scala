@@ -21,6 +21,7 @@ object Controller {
 
   import parsing.PlayingCardCodecs._
 
+  // nested case classes don't play well with semiautomatic decoding
   implicit val decoder: Decoder[HandRequest] = deriveDecoder[HandRequest]
   implicit val cardDecoder: Decoder[Card] = deriveDecoder[Card]
   implicit val rankDecoder: Decoder[Rank] = deriveDecoder[Rank]
