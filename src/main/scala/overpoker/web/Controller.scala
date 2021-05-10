@@ -1,32 +1,35 @@
 package overpoker.web
 
-import org.http4s.EntityDecoder
-import org.http4s.server._
-import org.http4s.dsl._
-import overpoker.playingcards.{Ace, PlayerHand, Card}
-import overpoker.texasholdem.hands.{Flush, Hand}
-import org.http4s.argonaut._
-import _root_.argonaut._, Argonaut._
-import overpoker.web.parsing.PlayingCardCodecs.HandRequest
+import cats.effect.IO
+import io.circe.Json.JString
+import io.circe.generic.semiauto
+import io.circe.{Decoder, Json}
+import org.http4s.HttpRoutes
+import org.http4s.circe.CirceEntityCodec.{circeEntityDecoder, circeEntityEncoder}
+import org.http4s.dsl.io._
+import overpoker.playingcards.{Card, PlayerHand}
+import overpoker.texasholdem.hands.Hand
 
-trait HandIdentityService{
+trait HandIdentityService {
   def identifyHand(playerHand: PlayerHand, communityCards: Vector[Card]): Hand
 }
 
-object TexasHoldemHandIdentityServuce extends HandIdentityService{
+object TexasHoldemHandIdentityServuce extends HandIdentityService {
   override def identifyHand(playerHand: PlayerHand, cards: Vector[Card]): Hand = Hand.getValues(playerHand, cards).head
 }
 
 object Controller {
 
   import parsing.PlayingCardCodecs._
-  implicit def myJsonA: EntityDecoder[HandRequest] = jsonOf[HandRequest]
 
-  def getHand(service: HandIdentityService) = HttpService {
-    case request@ POST -> Root / "hand" =>
-      request.as[HandRequest].
-        flatMap(cards =>
-          Ok(jSingleObject("hand", jString(service.identifyHand(PlayerHand(cards.player(0), cards.player(1)), cards.community).toString))))
+  implicit def decoder: Decoder[HandRequest] = semiauto.deriveDecoder[HandRequest]
 
+  def getHand(service: HandIdentityService) = HttpRoutes.of[IO] {
+    case request@POST -> Root / "hand" =>
+      for {
+        cards <- request.as[HandRequest]
+        json = Json.obj(("hand", JString(service.identifyHand(PlayerHand(cards.player(0), cards.player(1)), cards.community).toString)))
+        resp <- Ok(json)
+      } yield resp
   }
 }
