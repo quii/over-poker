@@ -2,15 +2,15 @@ package web.parsing
 
 import argonaut.Argonaut._
 import argonaut.{Parse, _}
-import org.scalatest.{Tag, FunSpec}
-import org.scalatest.Matchers._
-import org.typelevel.scalatest.DisjunctionMatchers
+import org.scalatest.Tag
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.must.Matchers.be
+import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import overpoker.playingcards.Rank._
 import overpoker.playingcards._
 
-import scalaz.\/
 
-class PlayingCardCodecsTest extends FunSpec with DisjunctionMatchers {
+class PlayingCardCodecsTest extends AnyFunSpec {
 
   import overpoker.web.parsing.PlayingCardCodecs._
 
@@ -45,7 +45,7 @@ class PlayingCardCodecsTest extends FunSpec with DisjunctionMatchers {
         |}
       """.stripMargin
 
-    val result: String \/ HandRequest =
+    val result: Either[String,HandRequest] =
       Parse.decodeEither[HandRequest](json)
 
     val expected = HandRequest(
@@ -53,7 +53,7 @@ class PlayingCardCodecsTest extends FunSpec with DisjunctionMatchers {
       Vector(10 of Clubs, King of Diamonds, 3 of Hearts)
     )
 
-    result should be(right[HandRequest])
+    result should be(HandRequest)
 
   }
 }
