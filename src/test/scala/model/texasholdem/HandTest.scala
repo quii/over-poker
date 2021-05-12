@@ -1,17 +1,14 @@
 package model.texasholdem
 
-import model.texasholdem
-import org.scalatest.FunSpec
-import org.scalatest.Matchers._
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.must.Matchers._
+import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import overpoker.playingcards.Rank._
 import overpoker.playingcards._
-import overpoker.texasholdem._
 import overpoker.texasholdem.gameStage.Flop
 import overpoker.texasholdem.hands._
 
-class HandTest extends FunSpec{
-
-  import model.TestDeck._
+class HandTest extends AnyFunSpec {
 
   it("finds a pair"){
     val cards = Vector(Queen of Clubs, Queen of Diamonds)

@@ -1,16 +1,27 @@
 package overpoker
 
-import org.http4s.server.blaze.BlazeBuilder
-import overpoker.web.{TexasHoldemHandIdentityServuce, Controller}
+import cats.effect.{ExitCode, IO, IOApp}
+import org.http4s.implicits._
+import org.http4s.server.Router
+import org.http4s.server.blaze._
+import overpoker.web.{Controller, TexasHoldemHandIdentityServuce}
 
-object WebServer extends App {
-  
+import scala.concurrent.ExecutionContext.Implicits.global
+
+object WebServer extends IOApp {
+
   val helloController = Controller.getHand(TexasHoldemHandIdentityServuce)
 
   val port = sys.env.get("PORT").map(_.toInt).getOrElse(8080)
 
-  BlazeBuilder.bindHttp(port)
-    .mountService(helloController, "/")
-    .run
-    .awaitShutdown()
+  private val app = Router("/" -> helloController).orNotFound
+
+
+  override def run(args: List[String]): IO[ExitCode] =
+    BlazeServerBuilder[IO](global).bindHttp(port)
+      .withHttpApp(app)
+      .serve
+      .compile
+      .drain
+      .as(ExitCode.Success)
 }

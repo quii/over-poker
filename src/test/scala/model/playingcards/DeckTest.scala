@@ -1,12 +1,12 @@
 package model.playingcards
 
-import model.TestDeck
-import org.scalatest.FunSpec
-import org.scalatest.Matchers._
+import org.scalatest.matchers.must.Matchers._
+import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
+import org.scalatest.funspec.AnyFunSpec
 import overpoker.playingcards.Rank._
 import overpoker.playingcards._
 
-class DeckTest extends FunSpec{
+class DeckTest extends AnyFunSpec{
 
   import model.TestDeck._
 
